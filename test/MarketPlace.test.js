@@ -1,7 +1,7 @@
 const MarketPlace = artifacts.require('./MarketPlace.sol')
 require('chai').use(require('chai-as-promised')).should();
 
-contract('MarketPlace', ([deployer, buyer, seller]) => {
+contract('MarketPlace', ([deployer, seller, buyer]) => {
     let marketPlace;
 
     before(async () => {
@@ -11,8 +11,8 @@ contract('MarketPlace', ([deployer, buyer, seller]) => {
     describe('deployment', async () => {
 
         it('Deployed Successfully', async () => {
-            const address = await marketPlace.address;
 
+            const address = await marketPlace.address;
             assert.notEqual(address, 0x0);
             assert.notEqual(address, '');
             assert.notEqual(address, null);
@@ -26,10 +26,11 @@ contract('MarketPlace', ([deployer, buyer, seller]) => {
     })
 
     describe('products', async () => {
+
         let result, productCount;
 
         before(async () => {
-            result = await marketPlace.createProduct('iPhone XR', web3.utils.toWei('1', 'Ether'));
+            result = await marketPlace.createProduct('iPhone XR', web3.utils.toWei('1', 'Ether'), {from: seller});
             productCount = await marketPlace.productCount();
         })
 
@@ -45,7 +46,7 @@ contract('MarketPlace', ([deployer, buyer, seller]) => {
             let oldBalance = await web3.eth.getBalance(seller);
             oldBalance = new web3.utils.BN(oldBalance);
 
-            result = await marketPlace.buyProduct(productCount, {from: buyer, value: web3.utils.toWei('1', 'Ether')})
+            result = await marketPlace.purchaseProduct(productCount, {from: buyer, value: web3.utils.toWei('1', 'Ether')})
             const event = result.logs[0].args;
 
             assert.equal(event.name, 'iPhone XR', 'name is correct')

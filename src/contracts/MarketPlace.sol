@@ -44,7 +44,7 @@ contract MarketPlace {
         emit ProductCreated(productCount, _price, _name, msg.sender, false);
     }
 
-    function buyProduct(uint _id) public payable {
+    function purchaseProduct(uint _id) public payable {
         Product memory _product = products[_id];
         address payable _seller = _product.owner;
 
