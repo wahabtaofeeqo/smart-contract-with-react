@@ -1,8 +1,8 @@
 {
-  "name": "eth-products",
+  "name": "eth-marketplace",
   "version": "0.1.0",
-  "description": "Ethereum Smart Product",
-  "author": "taofeekolamilekan218@yahoo.com",
+  "description": "An Ethereum Marketplace",
+  "author": "gregory@dappuniversity.com",
   "dependencies": {
     "babel-polyfill": "6.26.0",
     "babel-preset-env": "1.7.0",
