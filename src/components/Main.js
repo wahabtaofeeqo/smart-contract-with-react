@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+
 class Main extends Component {
     render() {
         return (
@@ -57,10 +58,11 @@ class Main extends Component {
                                                 !product.purchased
                                                     ?
                                                     <button
+                                                        key={key}
                                                         name={product.id}
                                                         value={product.price}
                                                         onClick={(event => {
-                                                            this.props.purchaseProduct(event.target.name, event.target.value)
+                                                            this.props.purchaseProduct(event.target.key, event.target.name, event.target.value)
                                                         })}
                                                         className={'btn btn-danger'}>
                                                         Buy Product

@@ -6,6 +6,12 @@ contract MarketPlace {
     uint public productCount = 0;
 
     mapping(uint => Product) public products;
+
+    modifier onlyBy(address _account) {
+        require(msg.sender == _account, "Unauthorized");
+        _;
+    }
+
     struct Product {
         uint id;
         uint price;
@@ -48,7 +54,7 @@ contract MarketPlace {
         Product memory _product = products[_id];
         address payable _seller = _product.owner;
 
-        require(!_product.purchased);
+        require(!_product.purchased, "Product is not available");
         require(_seller != msg.sender);
         require(msg.value >= _product.price);
         require(_product.id > 0 && _product.id <= productCount);

@@ -1,16 +1,16 @@
 import React,{ Component } from 'react';
+import {Link} from "react-router-dom";
 
 class Navbar extends Component {
     render() {
         return (
             <nav className="navbar navbar-light fixed-top bg-light flex-md-nowrap shadow-sm">
-                <a
+                <Link
                     className="navbar-brand col-sm-3 col-md-2 mr-0"
-                    href="http://www.dappuniversity.com/bootcamp"
-                    target="_blank"
+                    to="/"
                     rel="noopener noreferrer">
-                    Taoltech Coin Market
-                </a>
+                    Smart Products
+                </Link>
 
                 <ul className="navbar-nav px-3">
                     <li className="nav-item text-nowrap d-none d-sm-none d-sm-block">
