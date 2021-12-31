@@ -1,4 +1,5 @@
 pragma solidity ^0.5.0;
+//pragma experimental ABIEncoderV2;
 
 contract MarketPlace {
 
@@ -18,6 +19,7 @@ contract MarketPlace {
         string name;
         address payable owner;
         bool purchased;
+        string description;
     }
 
     event ProductCreated(
@@ -25,7 +27,8 @@ contract MarketPlace {
         uint price,
         string name,
         address payable owner,
-        bool purchased
+        bool purchased,
+        string description
     );
 
     event ProductPurchased(
@@ -40,14 +43,15 @@ contract MarketPlace {
         name = "Taoltech Coin Market Place";
     }
 
-    function createProduct(string memory _name, uint _price) public {
-        require(bytes(_name).length > 0);
+    function createProduct(string memory _name, uint _price, string memory _desc) public {
+
         require(_price > 0);
+        require(bytes(_name).length > 0);
+        require(bytes(_desc).length > 0);
 
         productCount++;
-        products[productCount] = Product(productCount, _price, _name, msg.sender, false);
-
-        emit ProductCreated(productCount, _price, _name, msg.sender, false);
+        products[productCount] = Product(productCount, _price, _name, msg.sender, false, _desc);
+        emit ProductCreated(productCount, _price, _name, msg.sender, false, _desc);
     }
 
     function purchaseProduct(uint _id) public payable {
@@ -64,8 +68,32 @@ contract MarketPlace {
         _product.owner = msg.sender;
 
         products[_id] = _product;
-        address(_seller).transfer(msg.value);
 
+        address(_seller).transfer(msg.value);
         emit ProductPurchased(productCount, _product.price, _product.name, msg.sender, true);
     }
+
+//    function getProducts() external view returns(Product[] memory) {
+//        uint counter = 0;
+//        Product[] memory _products;
+//        for(uint i = 0; i < allProducts.length; i++) {
+//            if(!allProducts[i].purchased) {
+//                _products[counter] = allProducts[i];
+//                counter++;
+//            }
+//        }
+//        return _products;
+//    }
+
+//    function myProducts() external view returns(Product[] memory) {
+//        uint counter = 0;
+//        Product[] memory _products;
+//        for(uint i = 0; i < allProducts.length; i++) {
+//            if(allProducts[i].owner == msg.sender) {
+//                _products[counter] = allProducts[i];
+//                counter++;
+//            }
+//        }
+//        return _products;
+//    }
 }

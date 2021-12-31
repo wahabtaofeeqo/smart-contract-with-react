@@ -1,4 +1,5 @@
 /* Styles go here */
+@import '/node_modules/bootstrap/dist/css/bootstrap.min.css';
 
 html, body {
     height: 100%;
@@ -33,4 +34,9 @@ html, body {
 
 .hm-100 {
     min-height: 100%;
+}
+
+.img-product {
+    width: 200px;
+    height: 200px;
 }

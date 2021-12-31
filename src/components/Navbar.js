@@ -9,7 +9,7 @@ class Navbar extends Component {
                     className="navbar-brand col-sm-3 col-md-2 mr-0"
                     to="/"
                     rel="noopener noreferrer">
-                    Smart Products
+                    Smart E-Commerce
                 </Link>
 
                 <ul className="navbar-nav px-3">
