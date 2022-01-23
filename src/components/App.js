@@ -34,31 +34,12 @@ class App extends Component {
           <ToastContainer />
           <Routes>
             <Route path="/" element={ <Home account={this.state.account} /> } />
-            <Route path="/products" element={ <Products purchaseProduct={this.purchaseProduct} /> }  />
-            <Route path="/add-products" element={ <AddProducts createProduct={this.createProduct} /> } />
+            <Route path="/products" element={ <Products marketPlace={this.purchaseProduct} /> }  />
+            <Route path="/add-products" element={ <AddProducts marketPlace={this.state.marketPlace} account={this.state.account} /> } />
             <Route path="/exchange" element={ <Exchange/> } />
             <Route path="*" element={ <NotFound /> } />
           </Routes>
         </BrowserRouter>
-
-
-      // <div>
-      //   <Navbar account={this.state.account} />
-      //   <div className="container-fluid mt-5 bg-danger">
-      //     <div className="row h-100 bg-danger">
-      //       <main role="main" className="col-lg-12 d-flex text-center">
-      //         { this.state.loading
-      //             ? <div id="loader" className="text-center"><p className="text-center">Loading...</p></div>
-      //             : <Main
-      //                 products={this.state.products}
-      //                 createProduct={this.createProduct}
-      //                 purchaseProduct={this.purchaseProduct}
-      //               />
-      //         }
-      //       </main>
-      //     </div>
-      //   </div>
-      // </div>
     )
   }
 
@@ -68,15 +49,11 @@ class App extends Component {
   }
 
   async loadWeb3() {
-    if (window.ethereum) {
-      window.web3 = new Web3(window.ethereum);
-      await window.ethereum.enable()
-    }
-    else if(window.web3) {
-      window.web3 = new Web3(window.web3.currentProvider)
+    if(typeof window.web3 !== 'undefined') {
+      window.web3 = new Web3(window.web3.currentProvider);
     }
     else {
-      alert('Not supported')
+      toast.error('Your browser does not support this');
     }
   }
 
@@ -87,6 +64,7 @@ class App extends Component {
 
     const networkId = await web3.eth.net.getId();
     const networkData = MarketPlace.networks[networkId];
+
     if (networkData) {
       let marketPlace = new web3.eth.Contract(MarketPlace.abi, networkData.address);
       this.setState({marketPlace});
@@ -94,19 +72,29 @@ class App extends Component {
     else {
       toast.error('Not deployed');
     }
+
+    this.observeAccount();
+  }
+
+  observeAccount() {
+    setInterval(async () => {
+      let account = await window.web3.eth.getAccounts();
+      if(account && account[0] !== this.state.account) {
+        this.setState({account: account})
+      }
+    }, 1000);
   }
 
   async createProduct(values) {
-    this.setState({loading: true})
-    this.state.marketPlace.methods.createProduct(values.name, values.price, values.description).send({ from: this.state.account }, async (err, response) => {
-      if(err) {
-        toast.error('Product could not created')
-      }
-      else {
-        toast.success('Product created successfully')
-      }
-      this.setState({loading: false})
-    })
+    // this.state.marketPlace.methods.createProduct(values.name, values.price, values.description).send({ from: this.state.account }, async (err, response) => {
+    //   if(err) {
+    //     toast.error('Product could not created')
+    //   }
+    //   else {
+    //     toast.success('Product created successfully')
+    //   }
+    //   this.setState({loading: false})
+    // })
   }
 
   async purchaseProduct(id, product) {

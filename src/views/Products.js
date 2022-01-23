@@ -29,42 +29,45 @@ class Products extends Component {
             <>
                 {
                     this.state.loading
-                        ? <Loader />
-                        : <div className="container-fluid bg-light">
-                            <div className="container py-0 py-md-5">
-                                <div className="row">
-                                    {
-                                        this.state.products.map((product, key) => {
-                                            return(
-                                                <div className="col-md-4 mb-4" key={key}>
-                                                    <div className="card border-0 rounded-top">
-                                                        <div className="card-body">
-                                                            <p className="card-title font-weight-bold">{product.name}</p>
-                                                            <div className="text-center mb-4">
-                                                                <img className="img-thumbnail img-fluid rounded-circle img-product" src="/assets/img/wallet.png"/>
+                        ? 
+                        <Loader />
+                        : 
+                        <>
+                            <div className="container-fluid bg-light">
+                                <div className="container py-0 py-md-5">
+                                    <div className="row">
+                                        {
+                                            this.state.products.map((product, key) => {
+                                                return(
+                                                    <div className="col-md-4 mb-4" key={key}>
+                                                        <div className="card border-0 rounded-top">
+                                                            <div className="card-body">
+                                                                <p className="card-title font-weight-bold">{product.name}</p>
+                                                                <div className="text-center mb-4">
+                                                                    <img className="img-thumbnail img-fluid rounded-circle img-product" src="/assets/img/wallet.png"/>
+                                                                </div>
+                                                                <p className="card-text">
+                                                                    {product.description}
+                                                                </p>
+
+                                                                <p>
+                                                                    {
+                                                                        window.web3.utils.fromWei(product.price.toString())
+                                                                    } Ether
+                                                                </p>
+
+                                                                <button className="btn btn-outline-danger px-5 btn-sm"
+                                                                        onClick={(event => this.viewProduct(product, key))}>View</button>
                                                             </div>
-                                                            <p className="card-text">
-                                                                Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-                                                                ...
-                                                            </p>
-
-                                                            <p>
-                                                                {
-                                                                    window.web3.utils.fromWei(product.price.toString())
-                                                                } Ether
-                                                            </p>
-
-                                                            <button className="btn btn-outline-danger px-5 btn-sm"
-                                                                    onClick={(event => this.viewProduct(product, key))}>View</button>
                                                         </div>
                                                     </div>
-                                                </div>
-                                            )
-                                        })
-                                    }
+                                                )
+                                            })
+                                        }
+                                    </div>
                                 </div>
                             </div>
-                        </div>
+                        </>
                 }
 
                 <Modal show={this.state.showModal} onHide={this.toggleModal} size="md" aria-labelledby="dm" centered>

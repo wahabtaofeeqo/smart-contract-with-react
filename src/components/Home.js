@@ -6,7 +6,7 @@ class Home extends Component {
 
     render() {
         return (
-            <div className="h-100 bg-img">
+            <div className="h-100">
               <Navbar account={this.props.account}/>
               <div className="bg-layer">
                 <div className="container h-100">
@@ -31,7 +31,7 @@ class Home extends Component {
                       </div>
                     </div>
 
-                    <div className="col-md-4 mb-4">
+                    <div className="col-md-4 mb-4 d-none">
                       <div className="card">
                         <div className="card-body">
                           <img className="card-img" src="/assets/img/wallet.png" alt="Card image" />

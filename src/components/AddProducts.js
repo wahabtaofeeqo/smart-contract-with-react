@@ -20,7 +20,14 @@ function AddProducts(props) {
     const doCreate = async () => {
         setSubmitted(!isSubmitted);
         if (Object.keys(errors).length === 0) {
-            await props.createProduct(values);
+            props.marketPlace.methods.createProduct(values.name, values.price, values.description).send({from: props.account})
+                .on('transactionHash', (hash) => {
+                    resetValues();
+                    toast.success('Transaction Hash created successfully');
+                })
+                .on('error', (error) => {
+                    toast.error('Operation not succeeded');
+                })
         }
     }
 

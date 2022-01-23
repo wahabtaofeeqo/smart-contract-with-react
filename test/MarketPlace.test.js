@@ -1,8 +1,10 @@
 const MarketPlace = artifacts.require('./MarketPlace.sol')
 require('chai').use(require('chai-as-promised')).should();
 
-contract('MarketPlace', ([deployer, seller, buyer]) => {
+contract('MarketPlace', (accounts) => {
+
     let marketPlace;
+    let [deployer, seller, buyer] = accounts;
 
     before(async () => {
         marketPlace = await MarketPlace.deployed()
@@ -30,7 +32,7 @@ contract('MarketPlace', ([deployer, seller, buyer]) => {
         let result, productCount;
 
         before(async () => {
-            result = await marketPlace.createProduct('iPhone XR', web3.utils.toWei('1', 'Ether'), {from: seller});
+            result = await marketPlace.createProduct('iPhone XR', web3.utils.toWei('1', 'Ether'), 'Description', {from: seller});
             productCount = await marketPlace.productCount();
         })
 
@@ -39,7 +41,7 @@ contract('MarketPlace', ([deployer, seller, buyer]) => {
             let event = result.logs[0].args;
             assert.equal(event.id.toNumber(), productCount.toNumber(), 'ID is correct')
 
-            await marketPlace.createProduct('', web3.utils.toWei('1', 'Ether'), {from: seller}).should.be.rejected
+            await marketPlace.createProduct('', web3.utils.toWei('1', 'Ether'), 'Description', {from: seller}).should.be.rejected
         });
 
         it('sells product', async () => {
